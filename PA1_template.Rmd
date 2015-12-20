@@ -1,8 +1,5 @@
 ---
 title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
 ---
 =====================================================================================================================
 ```{r}
@@ -15,6 +12,8 @@ I assume the input file is already in my directory
 ```{r}
 initial_activity <- read.csv("./activity.csv")
 ```
+
+=====================================================================================================================
 
 # What is mean total number of steps taken per day?
 
@@ -64,6 +63,11 @@ The interval `r max_interval_steps` contains the maximum number of steps: `r max
 
 # Imputing missing values
 
+## Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
+```{r}
+number_of_missing <- sum(is.na(initial_activity$steps))
+```
+The total number of missing values in the dataset is: `r number_of_missing`
 
 =====================================================================================================================
 

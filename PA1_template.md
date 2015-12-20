@@ -1,4 +1,6 @@
-# Reproducible Research: Peer Assessment 1
+---
+title: "Reproducible Research: Peer Assessment 1"
+---
 =====================================================================================================================
 
 ```r
@@ -29,6 +31,8 @@ I assume the input file is already in my directory
 initial_activity <- read.csv("./activity.csv")
 ```
 
+=====================================================================================================================
+
 # What is mean total number of steps taken per day?
 
 ## Calculate the total number of steps taken per day.
@@ -50,7 +54,7 @@ ggplot(totalstepsperday, aes(x=TotalSteps)) + geom_histogram(binwidth = 400) +
         labs(title = "Total Steps taken each day", x = "Number of Steps", y = "Number of days (frequency)")
 ```
 
-![](PA1_template_files/figure-html/Total number of steps taken each day-1.png) 
+![plot of chunk Total number of steps taken each day](figure/Total number of steps taken each day-1.png) 
 
 ## Calculate and report the mean and median of the total number of steps taken per day.
 
@@ -73,7 +77,7 @@ ggplot(averageinterval, aes(x=interval, y=AverageSteps)) + geom_line() +
         labs(title = "Averaged number of steps taken across all days", x = "5-minute intervals", y = "Averaged Steps")
 ```
 
-![](PA1_template_files/figure-html/unnamed-chunk-6-1.png) 
+![plot of chunk Averaged number of steps taken across all days](figure/Averaged number of steps taken across all days-1.png) 
 
 ## Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 
@@ -87,6 +91,12 @@ The interval 835 contains the maximum number of steps: 206.1698113
 
 # Imputing missing values
 
+## Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
+
+```r
+number_of_missing <- sum(is.na(initial_activity$steps))
+```
+The total number of missing values in the dataset is: 2304
 
 =====================================================================================================================
 
