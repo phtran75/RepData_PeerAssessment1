@@ -26,7 +26,15 @@ median_total <- median(totalstepsperday$TotalSteps)
 
 ## What is the average daily activity pattern?
 
+# Make a time series plot (i.e. type = "l") of the 5-minute interval (x-axis)
+# and the average number of steps taken, averaged across all days (y-axis)
+averageinterval <- subset(initial_activity, !is.na(steps)) %>% group_by(interval) %>% summarise(AverageSteps = mean(steps))
+ggplot(averageinterval, aes(x=interval, y=AverageSteps)) + geom_line() +
+        labs(title = "Averaged number of steps taken across all days", x = "5-minute intervals", y = "Averaged Steps")
 
+# Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
+max_interval_steps <- averageinterval[which.max(averageinterval$AverageSteps),1]
+max_steps <- max(averageinterval$AverageSteps)
 
 ## Imputing missing values
 
