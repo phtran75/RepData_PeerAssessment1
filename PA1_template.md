@@ -5,22 +5,6 @@ title: "Reproducible Research: Peer Assessment 1"
 
 ```r
 library(dplyr)
-```
-
-```
-## 
-## Attaching package: 'dplyr'
-## 
-## The following objects are masked from 'package:stats':
-## 
-##     filter, lag
-## 
-## The following objects are masked from 'package:base':
-## 
-##     intersect, setdiff, setequal, union
-```
-
-```r
 library(ggplot2)
 ```
 # Loading and preprocessing the data
@@ -97,6 +81,45 @@ The interval 835 contains the maximum number of steps: 206.1698113
 number_of_missing <- sum(is.na(initial_activity$steps))
 ```
 The total number of missing values in the dataset is: 2304
+
+## Devise a strategy for filling in all of the missing values in the dataset.
+## The strategy could use the mean/median for that day, or the mean for that 5-minute interval, etc.
+Our strategy will reuse the values we calculated : average number of steps taken, averaged across all days
+
+##Create a new dataset that is equal to the original dataset but with the missing data filled in.
+We have 2355 intervals
+
+
+```r
+total_activity <- initial_activity
+NA_Index <- which(is.na(initial_activity$steps))
+for (index in 1:number_of_missing) {
+        WichInterval <- initial_activity$interval[NA_Index[index]]
+        new_value <- averageinterval$AverageSteps[averageinterval$interval == WichInterval]
+        total_activity$steps[NA_Index[index]] <- new_value
+}       
+```
+
+## Make a histogram of the total number of steps taken each day
+
+```r
+completetotalstepsperday <- total_activity %>% group_by(date) %>% summarise(TotalSteps = sum(steps))
+ggplot(completetotalstepsperday, aes(x=TotalSteps)) + geom_histogram(binwidth = 400) +
+        labs(title = "Total Steps taken each day with NA values filled", x = "Number of Steps", y = "Number of days (frequency)")
+```
+
+![plot of chunk Total number of steps taken each day with missing data filled](figure/Total number of steps taken each day with missing data filled-1.png) 
+
+## Calculate and report the mean and median total number of steps taken per day.
+
+```r
+mean_total_filled <- mean(completetotalstepsperday$TotalSteps)
+median_total_filled <- median(completetotalstepsperday$TotalSteps)
+```
+
+The new mean and median are 10766 and 10766.
+
+It seems impact of imputing missing data on the estimates of the total daily number of steps is not big (or I missed something).
 
 =====================================================================================================================
 
