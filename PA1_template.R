@@ -67,3 +67,19 @@ median_total_filled <- median(completetotalstepsperday$TotalSteps)
 ### It seems impact of imputing missing data on the estimates of the total daily number of steps is not big (or I missed something)
 
 # Are there differences in activity patterns between weekdays and weekends?
+
+## For this part the weekdays() function may be of some help here. Use the dataset with the filled-in missing values for this part.
+## Create a new factor variable in the dataset with two levels - "weekday" and "weekend" indicating whether a given date is a weekday or weekend day.
+## oooops I realize I am in Paris, France Saturday=samedi and Sunday=dimanche :)
+
+total_activity$TypeofDay <- ifelse(weekdays(as.Date(total_activity$date)) %in% c("samedi","dimanche"), "Weekend","Weekday")
+completetotalstepsperdayAndType <- total_activity %>% group_by(TypeofDay,interval) %>% summarise(TotalSteps = sum(steps))
+
+## Make a panel plot containing a time series plot (i.e. type = "l") of the 5-minute interval (x-axis) 
+## and the average number of steps taken, averaged across all weekday days or weekend days (y-axis).
+ggplot(completetotalstepsperdayAndType, aes(x=interval, y=TotalSteps)) +
+        facet_wrap(~ TypeofDay, nrow=2, ncol=1) + geom_line() +
+        labs(title = "Averaged number of steps taken across all weekday days or weekend days", x = "5-minute intervals", y = "Number of Steps")
+
+### figure directory produced with the command "knit2html("PA1_template.Rmd")"
+### and now I can go to bed finally...
